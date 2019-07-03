@@ -36,3 +36,33 @@
 3. setting的拆分测试
 
 4. 语录：“复杂的东西抽象成基类，有特性的东西抽出来作为子类”
+
+5. ForeignKey 的基本属性
+
+   ```
+   至少需要指定3个参数，
+   owner = models.ForeignKey(User, verbose_name='作者',on_delete=models.DO_NOTHING)
+   #拓展
+   #关联表数据删除时，被关联表数据的行为(以作者与书的关系进行解释)
+   in_delete=models.DO_NOTHING   字面的意思，啥也不干，你删除你的干我毛线关系
+   				CASCADE：都删除；
+   				PROTECT：删除作者的信息时，采取保护机制，抛出错误：即不删除Books的内容；
+   				SET_NULL：只有当null=True才将关联的内容置空；
+   				SET_DEFAULT：设置为默认值；
+   				SET( )：括号里可以是函数，设置为自己定义的东西；
+   
+   ```
+
+6. INSTALLED_APPS中的顺序所代表的含义
+
+   ```
+   静态资源按照这个顺序去查找，如果要重写django自带的admin模板，可采用路径和名称一模一样的方式，自动加载你的(如果你的APP靠前),但这不是覆盖自带模板的最佳方式。
+   ```
+
+7. dbshell不好使，待解决
+
+   ```
+   完成了models部分，但是dbshell会报错，猜测是基于windows的原因，待解决
+   ```
+
+   
