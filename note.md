@@ -65,4 +65,20 @@
    完成了models部分，但是dbshell会报错，猜测是基于windows的原因，待解决
    ```
 
+8. 关于models中的`Charfied`字段的`max_lenght`的问题（mysql5.7）
+
+   ```
+   Charfied对应的musql中是varchar
+   max_lenght不是255，而是0~65535    #mysql5.7
+   但是如果为这个字段设置了unique=True时的默认长度才会变为255
+   顺便区分以下char/varchar/text:
+   	char的长度为0~255，
+   	varchar的最大长度是64K(65535),还要考虑not null占一位。不同的字符集的有效长度也不一样。例如utf-8的最多为21845。
+   	text存储大文本，最长为4G
+   从效率来说基本是char>varchar>text。但是如果使用Innodb引擎的话，推荐使用varchar代替char
+   加一句，对于经常出现where语句中的字段，考虑加索引，整形的尤其适合加索引
+   ```
+
+   
+
    
