@@ -19,8 +19,27 @@
   ln -s /usr/local/python3/bin/python3 /usr/bin/python3
   ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
   
+  #修改pip源
+  mkdir ~.pip
+  vi .pip/pip.conf
+  --------
+  [global]
+  index-url=http://mirrors.aliyun.com/pypi/simple/
+  
+  [install]
+  trusted-host=mirrors.aliyun.com
+  --------
+  
   pip3 install --upgrade pip
   pip3 install virtualenv
+  ------------------
+  python3的卸载示例
+  # 删除以下文件
+  rm -rf /usr/local/lib/python3.6
+  rm -rf /usr/local/bin/2to3-3.6 to
+  rm -rf /usr/local/bin/pyvenv-3.6
+  rm -rf /usr/local/bin/pydoc3.6
+  rm -rf /usr/local/bin/idle3.6
   
   ```
 
@@ -81,8 +100,18 @@
     检查新安装的版本：
     	/usr/local/bin/sqlite3 --version
     mv /usr/bin/sqlite3  /usr/bin/sqlite3_old
+    ln -s /usr/local/bin/sqlite3 /usr/bin/sqlite3   #创建全局软连接
     export LD_LIBRARY_PATH="/usr/local/lib"  #设置开机启动
     source ~/.bashrc  #立即生效
+    测试：
+        import sqlite3
+        sqlite3.sqlite_version
+    ----------------------以上内容重启后失效，python3仍然识别为3.7版本(重新安装python)----
+    cd /usr/local/python-3.7/    #进入目录
+    LD_RUN_PATH=/usr/local/lib ./configure LDFLAGS="-L/usr/local/lib" CPPFLAGS="-I/usr/local/include"  --prefix=/usr/local/python3    #最后指定安装的目录
+    LD_RUN_PATH=/usr/local/lib make
+    make && make install
+    重启测试后没问题
     ```
 
     
