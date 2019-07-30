@@ -16,6 +16,9 @@ class Category(models.Model):
     owner = models.ForeignKey(User, verbose_name='作者', on_delete=models.DO_NOTHING)
     created_time = models.DateTimeField(auto_created=True, verbose_name='创建时间')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = verbose_name_plural = '分类'
 
@@ -34,6 +37,9 @@ class Tag(models.Model):
     owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='作者')
     created_time = models.DateTimeField(auto_created=True, verbose_name='创建时间')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = verbose_name_plural = '标签'
 
@@ -50,7 +56,7 @@ class Post(models.Model):
 
     title = models.CharField(max_length=255, verbose_name='标题')
     desc = models.CharField(max_length=1024, blank=True, verbose_name='摘要')
-    cintent = models.TextField(verbose_name='正文', help_text='正文必须为MarkDown格式')
+    content = models.TextField(verbose_name='正文', help_text='正文必须为MarkDown格式')
     status = models.PositiveIntegerField(default=STATUS_NORMAL, choices=STATUS_ITEMS, verbose_name='状态')
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING,verbose_name='分类')
     tag = models.ManyToManyField(Tag, verbose_name='标签')
