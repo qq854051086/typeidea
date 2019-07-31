@@ -82,3 +82,86 @@
 9. 插播：防火墙管理：[防火墙管理.pdf](./docs/Centos7 防火墙管理 .pdf)
 
 10. Python内置函数的整理，整理内容着重于网站开发方向。整理内容较为粗糙
+
+11. admin.py中`save_mode`方法：
+
+    ```
+    	作用：通过给obj.owner赋值，就能达到自动设置owner的目的，request就是当前的请求，requests.user就是当前已登录的用户。如果是未登陆的情况下，通过request.user拿到的就是匿名用户对象。
+    	obj是当前要保存的对象，而form是页面提交过来的表单之后的对象。change用于标志本次保存的数据是新增的还是更新的。
+    	
+    ```
+
+12. django中admin.py的右侧自定义过滤器(让用户看到自己创建的分类)
+
+    ```python
+    SimpleListFilter
+    SimpleListFilter中提供了两个供我们重写的方法。两个属性。
+    	title用于展示标题，parameter_name就是查询时URL参数的名字，比如查询分类ID为1 的内容时，URL后面的Query部分是 》owner_category=1，此时就可以通过我们的过滤器拿到这个id,从而进行过滤。
+        两个方法的作用如下：
+        lookups：返回要展示的内容和查询用的id(就是上面的Query用的)
+        queryset: 根据URL query的内容返回列表页数据。比如如果URL最后的query是？owner_category=1，那么这里拿到的self.value()也就是1，此时就会根据1来过滤Quesyset。这里的queryset是列表页所有展示数据的集合，即POST数据集
+    ```
+
+13. 自定义列表页数据只允许当前用户查看
+
+    ```
+    在相应的model注册中添加get_query自定义函数
+    
+    ```
+
+14. 自定义编辑页面(数据录入页面)
+
+    ```python
+    在admin中添加以下内容
+    
+    fieldsets = (
+    	(名称,{内容}),
+        (名称,{内容}),
+    )
+    其中包含两个元素的tuple内容，第一个元素是当前板块的名称，第二个元素是当前板块的描述、字段和样式配置。
+    总结为：
+    	第一个元素是string,第二个元素是dict,而dict的keyt可以是'fields'、'description'、'classes。
+        fields控制字段
+        description控制描述
+        classes的作用就是要给配置的板块加上一些CSS属性，django admin默认支持的是clooapse和wide,当然，自己也可以写一些其他属性，自己来处理样式
+        还可以控制字段的展示方向：横向、纵向(针多对多字段）
+        filter_horizontal=('tag',)
+        filter_vertical=('tag',)
+    ```
+
+15. 自定义静态资源引入
+
+    ```python
+    我们可以通过自定义Media类来往页面上增加想要添加的js\css资源。
+    ```
+
+16. 自定义form
+
+    ```python
+    
+    ```
+
+17. 在同一页编辑关联数据
+
+    ```python
+    from django.contrib import admin
+    class PostInline(admin.TabularInline):
+        ...
+        
+    多用于相对字段内容较少的models.关联不关联的内容再议，感觉需求不大  
+    ```
+
+18. 定制site
+
+    ```python
+    定制site的作用在于：拥有两套后台地址，一套用来管理用户，一套用来管理业务。其实这两套系统都是基于一套逻辑的用户系统，只是我们在url上做了划分
+    ```
+
+19. 抽取admin基类，降低维护成本
+
+    ```python
+    
+    ```
+
+    
+
